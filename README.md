@@ -1,2 +1,26 @@
-# Reddit-Data-Pipeline-Scraping-Cleaning-and-Cloud-Hosting
-The project starts off by scraping data from reddit, storing and cleaning the data in Excel then applying preprocessing using PySpark, nad finally hosting the processed data on AWS S3 Server for further analysis.
+# Reddit-Data-Pipeline-Scraping-Cleaning-and-Cloud-Hosting  
+
+The project focuses on creating an effective ETL process, starting off with scraping data from reddit, storing and cleaning the data in Excel then applying preprocessing using PySpark, nad finally hosting the processed data on AWS S3 Server for further analysis.  
+
+## 1. Extracting Data by Scraping Reddit using Scrapy  
+
+Python libraries like BeautifulSoup and Scrapy provide an effective method to scrap the web and gather data, for this project I learned and applied Scrapy library to collect data from reddit's popular page. I organized the data into title, subreddit, upvotes, and time posted columns with corresponding rows and generated the results in a .csv file.  
+
+![image](https://github.com/jugal-chauhan04/Reddit-Data-Pipeline-Scraping-Cleaning-and-Cloud-Hosting/assets/111266884/8a8532a9-11c5-4cd1-9176-27269b9d7cdf)
+
+
+## 2. Data Cleaning in Excel  
+
+The raw data obtained from web srcaping is almost never clean, and needs to be investigated for appropriate data types and other data integrity standards. To achieve this, I browsed the data using excel's filter and sort options and recognized few problems.  
+
+![image](https://github.com/jugal-chauhan04/Reddit-Data-Pipeline-Scraping-Cleaning-and-Cloud-Hosting/assets/111266884/cf9b16a2-a66f-40bc-a8a7-e018ee7a9d41)  
+
+The upvote colum did not have a consistent format for the amount of upvotes, posts containing thousands of upvotes were displayed as 26.7k, to make the column fill with consistent values, I utilized the search and replace features of excel. Additionally, I got rid of the 'hours ago' text in the time column so that it can be converted into number type column. This much data cleaning was enough for excel's feature, and I decided to do the rest in PySpark.  
+
+## 3. Data Processing using PySpark  
+
+
+
+
+
+
