@@ -19,6 +19,29 @@ The upvote colum did not have a consistent format for the amount of upvotes, pos
 
 ## 3. Data Processing using PySpark  
 
+When loading data into a pyspark session, spark's engine automatically determines the data type for column values. However, in most practical applications, it is better to assign schema manually to avoid any mistakes in our data. We can achieve this using following script.  
+
+```python
+# Creating Manual Schema
+
+from pyspark.sql.types import StructField, StructType, StringType, LongType, IntegerType
+
+myManualSchema = StructType([
+StructField("id", IntegerType(), True),
+StructField("title", StringType(), True),
+StructField("subreddit", StringType(), True),
+StructField("upvote", LongType(), True),
+StructField("time", IntegerType(), True)
+])
+```
+
+Now, use our manual schema to load the data.  
+
+```python
+df = spark.read.format("csv").schema(myManualSchema).load("oldreddit.csv")
+df.printSchema()
+```
+
 
 
 
