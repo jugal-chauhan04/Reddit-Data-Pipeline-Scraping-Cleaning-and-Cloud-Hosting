@@ -41,6 +41,25 @@ Now, use our manual schema to load the data.
 df = spark.read.format("csv").schema(myManualSchema).load("oldreddit.csv")
 df.printSchema()
 ```
+What we aim to do here is, try to generate another spark dataframe that will contain subreddits with most upvotes in last 10 hours. This can be achieved in multiple ways in PySpark, we will showcase two approaches here and also display Spark's lazy evaluation technique.  
+
+The first approach is using the sparksql and apply an SQL query to obtain the result.
+
+```python
+# Create a view for our data to use Sql
+redditData.createOrReplaceTempView("redditData")
+
+# Using Sql Query
+sqlWay = spark.sql('''
+SELECT subreddit, SUM(upvote) AS totalUpvotes
+FROM redditData
+WHERE time <= 10
+GROUP BY subreddit
+ORDER BY totalUpvotes desc;
+''')
+
+sqlWay.explain()
+```  
 
 
 
