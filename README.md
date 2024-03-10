@@ -59,7 +59,108 @@ ORDER BY totalUpvotes desc;
 ''')
 
 sqlWay.explain()
-```  
+```
+
+<img width="725" alt="2024-03-10" src="https://github.com/jugal-chauhan04/Reddit-Data-Pipeline-Scraping-Cleaning-and-Cloud-Hosting/assets/111266884/d520b88a-0f57-401b-ad0d-1be54355d81b">  
+
+The generated dataframe looks like:  
+
+<img width="737" alt="2024-03-10 (1)" src="https://github.com/jugal-chauhan04/Reddit-Data-Pipeline-Scraping-Cleaning-and-Cloud-Hosting/assets/111266884/0849940c-a862-4852-a217-9ebb204801ed">
+
+
+
+Similarly, using python we can achieve the same result in following way:  
+
+```python
+import pyspark.sql.functions as func
+pythonWay = redditData.filter(redditData.time <= 10)\
+            .groupBy("subreddit")\
+            .agg(func.sum("upvote").alias("totalUpvotes"))\
+            .orderBy("totalUpvotes", ascending=False)
+
+pythonWay.explain()
+```
+
+<img width="735" alt="2024-03-10 (2)" src="https://github.com/jugal-chauhan04/Reddit-Data-Pipeline-Scraping-Cleaning-and-Cloud-Hosting/assets/111266884/d50f377f-3f5a-46ff-8a5e-e080a25bfd45">  
+
+Again, the generated dataframe looks like:  
+
+<img width="727" alt="2024-03-10 (3)" src="https://github.com/jugal-chauhan04/Reddit-Data-Pipeline-Scraping-Cleaning-and-Cloud-Hosting/assets/111266884/3ac8ae62-51ad-4216-95aa-bb31d0a17656">
+
+
+As we can see, the explain plan and generated output are the same for both the approaches!  
+
+## 4. AWS S3 Hosting  
+
+One of the service AWS provides is a simple storage service (S3) which is basic cloud server where data containing text, pictures, etc. can be stored in different file formats. There are several advantages of storing the data on AWS S3 server, which include:  
+
+1. **Scalability and Durability**: S3 scales seamlessly and ensures 99.999999999% durability.
+
+2. **Accessibility**: Simple web services interface for easy retrieval from anywhere.
+
+3. **Reliability**: Redundancy across facilities ensures data availability.
+
+4. **Security**: Robust access control, encryption options for data in transit and at rest.
+
+5. **Cost-Effective**: Pay-as-you-go pricing model based on actual usage.
+
+6. **Data Lifecycle Management**: Automation for efficient data movement and deletion.
+
+7. **Integration**: Seamless integration with other AWS services.
+
+8. **Global Reach**: Multiple data centers globally for low-latency access.
+
+In summary, S3 simplifies storage, enhances accessibility, and provides a reliable, scalable cloud solution.  
+
+Let's look at how to upload files to AWS S3 server using python environmnet.  
+
+First, create a AWS user account, and then from services select S3.  
+
+<img width="956" alt="2024-03-10 (4)" src="https://github.com/jugal-chauhan04/Reddit-Data-Pipeline-Scraping-Cleaning-and-Cloud-Hosting/assets/111266884/74322446-e5b5-4424-945e-784fcf55d537">  
+
+Create a new S3 bucket by following and understanding the instructions, once the bucket is created, it might look something like this:  
+
+<img width="962" alt="2024-03-10 (6)" src="https://github.com/jugal-chauhan04/Reddit-Data-Pipeline-Scraping-Cleaning-and-Cloud-Hosting/assets/111266884/e1e0912e-a7ba-4c6b-9eef-b0f16e508814">  
+
+Here in myredditbucket I have created a folder named redditData in which we will store our file that we previously generated. We will use following python code to upload the file to AWS S3 bucket from python environment. We are going to upload csv version of our output to AWS S3 server, hence let's convert the pyspark dataframe to a csv file first.
+
+```python
+pythonWay.toPandas().to_csv('subreddit.csv')
+```
+We will use the boto3 library to upload the csv file to our aws s3 bucket.  
+
+```python
+import boto3
+
+session = boto3.Session(
+    aws_access_key_id='',
+    aws_secret_access_key='',
+)
+
+s3 = session.resource('s3')
+
+s3.meta.client.upload_file('subreddit.csv', 'myredditbucket', 'redditData/subreddits.csv')
+```
+Which upload the subreddits.csv on our S3 server.  
+
+<img width="962" alt="2024-03-10 (7)" src="https://github.com/jugal-chauhan04/Reddit-Data-Pipeline-Scraping-Cleaning-and-Cloud-Hosting/assets/111266884/eda0a12c-07df-4f33-95bd-209589bba602">  
+
+## 5. Conclusion  
+
+In summary, the Reddit Data Pipeline project accomplished its goal of efficiently gathering insights from Reddit data. We started by scraping data with Scrapy, cleaned it in Excel, and then processed it using PySpark. The AWS S3 hosting added a reliable cloud storage solution.
+
+This project showcased the power of PySpark in analyzing data, emphasizing two approaches. The integration with AWS S3 provided scalability, accessibility, and security benefits.
+
+In practical terms, this pipeline demonstrates how to handle web data effectively, making it a valuable resource for those seeking insights from Reddit and similar platforms.
+
+
+
+
+
+
+
+
+
 
 
 
