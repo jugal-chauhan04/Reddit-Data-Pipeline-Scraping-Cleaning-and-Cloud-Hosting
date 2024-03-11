@@ -1,6 +1,6 @@
 # Reddit-Data-Pipeline-Scraping-Cleaning-and-Cloud-Hosting  
 
-The project focuses on creating an effective ETL process, starting off with scraping data from reddit, storing and cleaning the data in Excel then applying preprocessing using PySpark, nad finally hosting the processed data on AWS S3 Server for further analysis.  
+The project focuses on creating an effective ETL process, starting off with scraping data from reddit, storing and cleaning the data in Excel then applying preprocessing using PySpark, and finally hosting the processed data on AWS S3 Server for further analysis.  
 
 ## 1. Extracting Data by Scraping Reddit using Scrapy  
 
