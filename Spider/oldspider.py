@@ -29,14 +29,6 @@ class OldspiderSpider(scrapy.Spider):
             yield response.follow(next_page, callback=self.parse)
 
     
-    def run_spider():
-        process.crawl(oldspider)
-        process.start()
 
-    
-    schedule.every(24).hours.do(run_spider)
-    while True:
-        schedule.run_pending()
-        time.sleep(1)
 
 
